@@ -10,6 +10,9 @@ from rest_framework.authentication import SessionAuthentication
 
 
 NOT_MATCH_EXIST = (_(u"There are none match for the zipcode given, please try with one diferent."))
+ADD_FILE = (_(u"Please add a file"))
+SUCCESS_UPLOAD = (_(u"File uploaded succesfully"))
+BAD_FILE = (_(u"Please add a file with correct format"))
 ERROR = (_(u"Oops something went wrong, try again."))
 
 

@@ -25,7 +25,8 @@
         </div>
     </div>
 
-    <form action="{% url 'load-csv' %}" method="POST" enctype="multipart/form-data" data-ajax="false">{% csrf_token %}
+    <form role="form" action="{% url 'load-csv' %}" method="POST" id="upload-file" enctype="multipart/form-data">
+        {% csrf_token %}
             <input type="file" name="csv_file" />
             <input type="submit" value="Upload Contact File" />
         </form>

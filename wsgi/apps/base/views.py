@@ -91,5 +91,25 @@ class ContactLoadCSVViewClass(View):
             for row in reader:
                 if len(row) <= 2:
                     Contact.objects.update_or_create(name=row[0], zipcode=row[1])
+                    context = {
+                        'hasErrors': False,
+                        'hasMessage': False,
+                        'message': utils.SUCCESS_UPLOAD,
+                        'success': True,
+                    }
+                else:
+                    context = {
+                        'hasErrors': False,
+                        'hasMessage': True,
+                        'message': utils.BAD_FILE,
+                        'success': False,
+                    }
 
-        return HttpResponseRedirect(reverse_lazy('website'))
+        else:
+            context = {
+                'hasErrors': False,
+                'hasMessage': True,
+                'message': utils.ADD_FILE,
+                'success': False,
+            }
+        return utils.render_to_json(context)
