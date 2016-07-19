@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e038c62c-24f9-4a1a-9f77-c6885115c446" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wsgi/apps/base/views.py" afterPath="$PROJECT_DIR$/wsgi/apps/base/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wsgi/project/utils.py" afterPath="$PROJECT_DIR$/wsgi/project/utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wsgi/static/js/app.js" afterPath="$PROJECT_DIR$/wsgi/static/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wsgi/static/js/app.min.js" afterPath="$PROJECT_DIR$/wsgi/static/js/app.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wsgi/templates/base.html" afterPath="$PROJECT_DIR$/wsgi/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wsgi/templates/website/match_agent.html" afterPath="$PROJECT_DIR$/wsgi/templates/website/match_agent.html" />
-    </list>
+    <list default="true" id="e038c62c-24f9-4a1a-9f77-c6885115c446" name="Default" comment="" />
     <ignored path="zoetest.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
