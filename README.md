@@ -12,6 +12,12 @@ files css and js
 
 before run migrate for collect the database an set all necesary tables for django app
 
+there is a version online for web test, just only is access at the url:
+
+http://zoetest-kperez.rhcloud.com/
+
+and for load data in test there is a upload file csv for load csv file with contacts
+    
 
 Running on Local Server
 ----------------------------

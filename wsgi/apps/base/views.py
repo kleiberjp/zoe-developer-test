@@ -89,6 +89,7 @@ class ContactLoadCSVViewClass(View):
             reader = csv.reader(codecs.EncodedFile(csvfile, "utf-8"), delimiter=',', dialect=dialect)
             next(reader)
             for row in reader:
-                Contact.objects.create(name=row[0], zipcode=row[1])
+                if len(row) <= 2:
+                    Contact.objects.update_or_create(name=row[0], zipcode=row[1])
 
         return HttpResponseRedirect(reverse_lazy('website'))
