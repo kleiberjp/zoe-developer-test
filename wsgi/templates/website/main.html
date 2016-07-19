@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}
+    {% block title-page %}{% endblock %}
+{% endblock %}
+{% block content %}
+    {% include 'website/match_agent.html' %}
+{% endblock %}
+{% block js %}
+    <script src="{{ STATIC_URL }}js/app.min.js"></script>
+    {% block js-page %}{% endblock %}
+{% endblock %}

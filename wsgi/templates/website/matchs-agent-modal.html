@@ -1,0 +1,43 @@
+<header class="clearfix">
+    <div id="logo">
+        <img src="http://www.zoefin.com/uploads/8/0/4/6/80465164/5313477.png">
+    </div>
+    <h1>Match Agents Finds</h1>
+</header>
+<main>
+    <table>
+        <thead>
+        <tr>
+            <th class="agent">Agent ID</th>
+            <th class="agent-name">Agent Name</th>
+            <th></th>
+            <th>Contact Name</th>
+            <th>Zip Code</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in  contact_agent1 %}
+            {% if item.id %}
+                <tr>
+                    <td class="agent">{{ agent1.id }}</td>
+                    <td class="agent-name">{{ agent1.name }}</td>
+                    <td></td>
+                    <td class="contact-name">{{ item.name }}</td>
+                    <td class="zipcode">{{ item.zipcode }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        {% for item in  contact_agent2 %}
+            {% if item.id %}
+                <tr>
+                    <td class="agent">{{ agent2.id }}</td>
+                    <td class="agent-name">{{ agent2.name }}</td>
+                    <td></td>
+                    <td class="contact-name">{{ item.name }}</td>
+                    <td class="zipcode">{{ item.zipcode }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</main>
