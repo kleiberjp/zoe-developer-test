@@ -18,6 +18,7 @@ setup(
         'django-filter',
         'django-suit',
         'django-rest-auth',
+        "pyzipcode",
     ],
     dependency_links=[
         'https://pypi.python.org/simple/django/'

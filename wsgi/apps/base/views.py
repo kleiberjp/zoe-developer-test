@@ -2,8 +2,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.generic import View
-from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect
 from django.template.loader import render_to_string
 
 from apps.agent.forms import AgentsForm
@@ -11,8 +9,12 @@ from apps.contact.models import Contact
 from apps.agent.models import Agent
 from project import utils
 
+from pyzipcode import ZipCodeDatabase
+from pyzipcode import ZipNotFoundException
 import csv
 import codecs
+
+DEFAULT_RAIDUS = 20
 
 
 class WebSiteViewClass(View):
@@ -31,7 +33,6 @@ class WebSiteViewClass(View):
 
 
 class AgentsMatchViewClass(View):
-
     def post(self, request):
         form = AgentsForm(request.POST)
         if form.is_valid():
@@ -40,6 +41,7 @@ class AgentsMatchViewClass(View):
             return utils.form_invalid(form)
 
     def form_valid(request, form):
+        zcdb = ZipCodeDatabase()
         agent1_zipcode = form.cleaned_data['zipcode_agent1']
         agent2_zipcode = form.cleaned_data['zipcode_agent2']
 
@@ -53,22 +55,43 @@ class AgentsMatchViewClass(View):
             defaults={'zipcode': agent2_zipcode},
         )
 
-        contacts_agent1 = Contact.objects.filter(zipcode=agent1_zipcode)
-        contacts_agent2 = Contact.objects.filter(zipcode=agent2_zipcode)
+        nearestzipcode_a1 = []
+        nearestzipcode_a2 = []
+        try:
+            nearestzipcode_a1 = [z.zip for z in zcdb.get_zipcodes_around_radius(agent1_zipcode, DEFAULT_RAIDUS)]
+        except ZipNotFoundException:
+            pass
 
-        if contacts_agent1.exists() or contacts_agent2.exists():
-            data = {
-                'agent1': agent1,
-                'contact_agent1': contacts_agent1,
-                'agent2': agent2,
-                'contact_agent2': contacts_agent2
-            }
-            content = render_to_string('website/matchs-agent-modal.html', data)
-            context = {
-                'success': True,
-                'matchs': content
-            }
+        try:
+            nearestzipcode_a2 = [z.zip for z in zcdb.get_zipcodes_around_radius(agent2_zipcode, DEFAULT_RAIDUS)]
+        except ZipNotFoundException:
+            pass
 
+        if nearestzipcode_a1 or nearestzipcode_a2:
+            nearestzipcode_a2 = [x for x in nearestzipcode_a2 if not (x in nearestzipcode_a1)]
+
+            contacts_agent1 = Contact.objects.filter(zipcode__in=nearestzipcode_a1).all()
+            contacts_agent2 = Contact.objects.filter(zipcode__in=nearestzipcode_a2).all()
+
+            if contacts_agent1 or contacts_agent2:
+                data = {
+                    'agent1': agent1,
+                    'contact_agent1': contacts_agent1,
+                    'agent2': agent2,
+                    'contact_agent2': contacts_agent2
+                }
+                content = render_to_string('website/matchs-agent-modal.html', data)
+                context = {
+                    'success': True,
+                    'matchs': content
+                }
+            else:
+                context = {
+                    'hasErrors': False,
+                    'hasMessage': True,
+                    'message': utils.NOT_MATCH_EXIST,
+                    'success': False,
+                }
         else:
             context = {
                 'hasErrors': False,
@@ -80,8 +103,7 @@ class AgentsMatchViewClass(View):
 
 
 class ContactLoadCSVViewClass(View):
-
-     def post(self, request):
+    def post(self, request):
         if request.FILES:
             csvfile = request.FILES['csv_file']
             dialect = csv.Sniffer().sniff(codecs.EncodedFile(csvfile, "utf-8").read(1024))
